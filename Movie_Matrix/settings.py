@@ -70,15 +70,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Movie_Matrix.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# Database: mySQL
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'movie_matrix_database', 
+        'USER': 'admin',
+        'PASSWORD': 'MovieMatrix123!', 
+        'HOST': '35.223.110.29', 
+        'PORT': '3306',
     }
 }
+
 
 
 # Password validation
