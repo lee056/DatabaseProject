@@ -5,9 +5,6 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-
-#Everything should be good now -annie
-
 from django.db import models
 
 
@@ -19,9 +16,6 @@ class Actor(models.Model):
     class Meta:
         managed = False
         db_table = 'Actor'
-    
-    def __str__(self):
-        return f"{self.actor_first_name} {self.actor_last_name}"
 
 
 class Award(models.Model):
@@ -31,21 +25,15 @@ class Award(models.Model):
     class Meta:
         managed = False
         db_table = 'Award'
-    
-    def __str__(self):
-        return self.award_name
 
 
 class Casting(models.Model):
-    actor_actor = models.ForeignKey(Actor, on_delete=models.CASCADE, db_column='Actor_actor_id')  # Field name made lowercase.
-    movie_movie = models.ForeignKey('Movie', on_delete=models.CASCADE, db_column='Movie_movie_id')  # Field name made lowercase.
+    actor_actor = models.ForeignKey(Actor, models.DO_NOTHING, db_column='Actor_actor_id')  # Field name made lowercase.
+    movie_movie = models.ForeignKey('Movie', models.DO_NOTHING, db_column='Movie_movie_id')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'Casting'
-
-    def __str__(self):
-        return f"{self.actor_actor} in {self.movie_movie}"
 
 
 class Director(models.Model):
@@ -56,9 +44,6 @@ class Director(models.Model):
     class Meta:
         managed = False
         db_table = 'Director'
-    
-    def __str__(self):
-        return f"{self.director_first_name} {self.director_last_name}"
 
 
 class Genre(models.Model):
@@ -69,61 +54,45 @@ class Genre(models.Model):
         managed = False
         db_table = 'Genre'
 
-    def __str__(self):
-        return self.genre_name
-
 
 class GenreMovieAssignment(models.Model):
-    movie_movie = models.ForeignKey('Movie', on_delete=models.CASCADE, db_column='Movie_movie_id')  # Field name made lowercase.
-    genre_genre = models.ForeignKey(Genre, on_delete=models.CASCADE, db_column='Genre_genre_id')  # Field name made lowercase.
+    movie_movie = models.ForeignKey('Movie', models.DO_NOTHING, db_column='Movie_movie_id')  # Field name made lowercase.
+    genre_genre = models.ForeignKey(Genre, models.DO_NOTHING, db_column='Genre_genre_id')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'Genre_movie_assignment'
 
-    def __str__(self):
-        return f"{self.movie_movie} categorized as {self.genre_genre}"
-
 
 class Gross(models.Model):
     domestic_gross = models.IntegerField()
     international_gross = models.IntegerField()
-    movie_movie = models.ForeignKey('Movie', on_delete=models.CASCADE, db_column='Movie_movie_id')  # Field name made lowercase.
+    movie_movie = models.ForeignKey('Movie', models.DO_NOTHING, db_column='Movie_movie_id')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'Gross'
-
-    def __str__(self):
-        return f"{self.movie_movie} - Domestic: ${self.domestic_gross:,}, Intl: ${self.international_gross:,}"
 
 
 class Movie(models.Model):
     movie_id = models.IntegerField(primary_key=True)
     movie_title = models.CharField(max_length=255)
     release_year = models.IntegerField()
-    duration = models.IntegerField()  #changed from timestamp
-    rating_rating = models.ForeignKey('Rating', on_delete=models.CASCADE)
+    duration = models.DateTimeField()
+    rating_rating = models.ForeignKey('Rating', models.DO_NOTHING)
 
     class Meta:
         managed = False
         db_table = 'Movie'
-    
-    
-    def __str__(self):
-        return f"{self.movie_title} ({self.release_year})"
 
 
 class MovieDirectorAssignment(models.Model):
-    movie_movie = models.ForeignKey(Movie, on_delete=models.CASCADE, db_column='Movie_movie_id')  # Field name made lowercase.
-    director_director = models.ForeignKey(Director, on_delete=models.CASCADE)
+    movie_movie = models.ForeignKey(Movie, models.DO_NOTHING, db_column='Movie_movie_id')  # Field name made lowercase.
+    director_director = models.ForeignKey(Director, models.DO_NOTHING)
 
     class Meta:
         managed = False
         db_table = 'Movie_director_assignment'
-
-    def __str__(self):
-        return f"{self.director_director} directed {self.movie_movie}"
 
 
 class Rating(models.Model):
@@ -134,8 +103,6 @@ class Rating(models.Model):
         managed = False
         db_table = 'Rating'
 
-    def __str__(self):              #human readable
-        return self.rating_name  
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -145,11 +112,10 @@ class AuthGroup(models.Model):
         db_table = 'auth_group'
 
 
-
 class AuthGroupPermissions(models.Model):
     id = models.BigAutoField(primary_key=True)
-    group = models.ForeignKey(AuthGroup, on_delete=models.CASCADE)
-    permission = models.ForeignKey('AuthPermission', on_delete=models.CASCADE)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -159,7 +125,7 @@ class AuthGroupPermissions(models.Model):
 
 class AuthPermission(models.Model):
     name = models.CharField(max_length=255)
-    content_type = models.ForeignKey('DjangoContentType', on_delete=models.CASCADE)
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
     codename = models.CharField(max_length=100)
 
     class Meta:
@@ -187,8 +153,8 @@ class AuthUser(models.Model):
 
 class AuthUserGroups(models.Model):
     id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, on_delete=models.CASCADE)
-    group = models.ForeignKey(AuthGroup, on_delete=models.CASCADE)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -198,8 +164,8 @@ class AuthUserGroups(models.Model):
 
 class AuthUserUserPermissions(models.Model):
     id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, on_delete=models.CASCADE)
-    permission = models.ForeignKey(AuthPermission, on_delete=models.CASCADE)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -213,8 +179,8 @@ class DjangoAdminLog(models.Model):
     object_repr = models.CharField(max_length=200)
     action_flag = models.PositiveSmallIntegerField()
     change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', on_delete=models.CASCADE, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, on_delete=models.CASCADE)
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -253,16 +219,12 @@ class DjangoSession(models.Model):
 
 
 class MovieAwardAssignment(models.Model):
-    award_award = models.ForeignKey(Award, on_delete=models.CASCADE, db_column='Award_award_id')  # Field name made lowercase.
-    movie_movie = models.ForeignKey(Movie, on_delete=models.CASCADE, db_column='Movie_movie_id')  # Field name made lowercase.
+    award_award = models.ForeignKey(Award, models.DO_NOTHING, db_column='Award_award_id')  # Field name made lowercase.
+    movie_movie = models.ForeignKey(Movie, models.DO_NOTHING, db_column='Movie_movie_id')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'movie_award_assignment'
-
-    def __str__(self):
-        return f"{self.movie_movie} won {self.award_award}"
-
 
 
 class Timestamps(models.Model):
@@ -273,9 +235,6 @@ class Timestamps(models.Model):
         managed = False
         db_table = 'timestamps'
 
-    def __str__(self):
-        return f"Created: {self.create_time}, Updated: {self.update_time}"
-
 
 class User(models.Model):
     username = models.CharField(max_length=16)
@@ -285,6 +244,3 @@ class User(models.Model):
     class Meta:
         managed = False
         db_table = 'user'
-    
-    def __str__(self):
-        return self.username

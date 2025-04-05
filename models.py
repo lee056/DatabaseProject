@@ -19,9 +19,6 @@ class Actor(models.Model):
     class Meta:
         managed = False
         db_table = 'Actor'
-    
-    def __str__(self):
-        return f"{self.actor_first_name} {self.actor_last_name}"
 
 
 class Award(models.Model):
@@ -31,9 +28,6 @@ class Award(models.Model):
     class Meta:
         managed = False
         db_table = 'Award'
-    
-    def __str__(self):
-        return self.award_name
 
 
 class Casting(models.Model):
@@ -44,9 +38,6 @@ class Casting(models.Model):
         managed = False
         db_table = 'Casting'
 
-    def __str__(self):
-        return f"{self.actor_actor} in {self.movie_movie}"
-
 
 class Director(models.Model):
     director_id = models.IntegerField(primary_key=True)
@@ -56,9 +47,6 @@ class Director(models.Model):
     class Meta:
         managed = False
         db_table = 'Director'
-    
-    def __str__(self):
-        return f"{self.director_first_name} {self.director_last_name}"
 
 
 class Genre(models.Model):
@@ -69,9 +57,6 @@ class Genre(models.Model):
         managed = False
         db_table = 'Genre'
 
-    def __str__(self):
-        return self.genre_name
-
 
 class GenreMovieAssignment(models.Model):
     movie_movie = models.ForeignKey('Movie', on_delete=models.CASCADE, db_column='Movie_movie_id')  # Field name made lowercase.
@@ -80,9 +65,6 @@ class GenreMovieAssignment(models.Model):
     class Meta:
         managed = False
         db_table = 'Genre_movie_assignment'
-
-    def __str__(self):
-        return f"{self.movie_movie} categorized as {self.genre_genre}"
 
 
 class Gross(models.Model):
@@ -94,24 +76,17 @@ class Gross(models.Model):
         managed = False
         db_table = 'Gross'
 
-    def __str__(self):
-        return f"{self.movie_movie} - Domestic: ${self.domestic_gross:,}, Intl: ${self.international_gross:,}"
-
 
 class Movie(models.Model):
     movie_id = models.IntegerField(primary_key=True)
     movie_title = models.CharField(max_length=255)
     release_year = models.IntegerField()
-    duration = models.IntegerField()  #changed from timestamp
+    duration = models.DateTimeField()
     rating_rating = models.ForeignKey('Rating', on_delete=models.CASCADE)
 
     class Meta:
         managed = False
         db_table = 'Movie'
-    
-    
-    def __str__(self):
-        return f"{self.movie_title} ({self.release_year})"
 
 
 class MovieDirectorAssignment(models.Model):
@@ -122,9 +97,6 @@ class MovieDirectorAssignment(models.Model):
         managed = False
         db_table = 'Movie_director_assignment'
 
-    def __str__(self):
-        return f"{self.director_director} directed {self.movie_movie}"
-
 
 class Rating(models.Model):
     rating_id = models.IntegerField(primary_key=True)
@@ -134,8 +106,6 @@ class Rating(models.Model):
         managed = False
         db_table = 'Rating'
 
-    def __str__(self):              #human readable
-        return self.rating_name  
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -143,7 +113,6 @@ class AuthGroup(models.Model):
     class Meta:
         managed = False
         db_table = 'auth_group'
-
 
 
 class AuthGroupPermissions(models.Model):
@@ -260,10 +229,6 @@ class MovieAwardAssignment(models.Model):
         managed = False
         db_table = 'movie_award_assignment'
 
-    def __str__(self):
-        return f"{self.movie_movie} won {self.award_award}"
-
-
 
 class Timestamps(models.Model):
     create_time = models.DateTimeField(blank=True, null=True)
@@ -272,9 +237,6 @@ class Timestamps(models.Model):
     class Meta:
         managed = False
         db_table = 'timestamps'
-
-    def __str__(self):
-        return f"Created: {self.create_time}, Updated: {self.update_time}"
 
 
 class User(models.Model):
@@ -285,6 +247,3 @@ class User(models.Model):
     class Meta:
         managed = False
         db_table = 'user'
-    
-    def __str__(self):
-        return self.username
