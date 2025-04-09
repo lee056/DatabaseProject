@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Matrix - Home</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="homepage">
+    <div class="home-container">
+        <h1>Welcome to Movie Matrix</h1>
+
+        {% if user.is_authenticated %}
+            <p>Hello, <strong>{{ user.username }}</strong>!</p>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <p>You are not logged in.</p>
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </div>
+</body>
+</html>
