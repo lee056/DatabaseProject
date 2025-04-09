@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Movie Matrix - Login</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="login-page">
+    <div class="login-container">
+
+        <h1 class="title">Movie Matrix</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <br>
+
+            <button type="submit">Login</button>
+
+            {% if form.errors %}
+                <div class="error">
+                    <p>Invalid login. Please try again.</p>
+                </div>
+            {% endif %}
+
+            <p><b>New to Movie Matrix?</b>
+                <a href="{% url 'create_account' %}" class="create-link">Create an account here</a>
+            </p>
+        </form>
+    </div>
+</body>
+</html>
