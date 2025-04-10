@@ -17,7 +17,7 @@ class Actor(models.Model):
     actor_last_name = models.CharField(max_length=255)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Actor'
     
     def __str__(self):
@@ -29,7 +29,7 @@ class Award(models.Model):
     award_name = models.CharField(max_length=255)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Award'
     
     def __str__(self):
@@ -41,7 +41,7 @@ class Casting(models.Model):
     movie_movie = models.ForeignKey('Movie', on_delete=models.CASCADE, db_column='Movie_movie_id')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Casting'
 
     def __str__(self):
@@ -54,7 +54,7 @@ class Director(models.Model):
     director_last_name = models.CharField(max_length=255)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Director'
     
     def __str__(self):
@@ -66,7 +66,7 @@ class Genre(models.Model):
     genre_name = models.CharField(max_length=255)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Genre'
 
     def __str__(self):
@@ -78,7 +78,7 @@ class GenreMovieAssignment(models.Model):
     genre_genre = models.ForeignKey(Genre, on_delete=models.CASCADE, db_column='Genre_genre_id')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Genre_movie_assignment'
 
     def __str__(self):
@@ -91,7 +91,7 @@ class Gross(models.Model):
     movie_movie = models.ForeignKey('Movie', on_delete=models.CASCADE, db_column='Movie_movie_id')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Gross'
 
     def __str__(self):
@@ -106,7 +106,7 @@ class Movie(models.Model):
     rating_rating = models.ForeignKey('Rating', on_delete=models.CASCADE)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Movie'
     
     
@@ -119,7 +119,7 @@ class MovieDirectorAssignment(models.Model):
     director_director = models.ForeignKey(Director, on_delete=models.CASCADE)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Movie_director_assignment'
 
     def __str__(self):
@@ -131,125 +131,125 @@ class Rating(models.Model):
     rating_name = models.CharField(max_length=255)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Rating'
 
     def __str__(self):              #human readable
         return self.rating_name  
 
-class AuthGroup(models.Model):
-    name = models.CharField(unique=True, max_length=150)
+# class AuthGroup(models.Model):
+#     name = models.CharField(unique=True, max_length=150)
 
-    class Meta:
-        managed = False
-        db_table = 'auth_group'
-
-
-
-class AuthGroupPermissions(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    group = models.ForeignKey(AuthGroup, on_delete=models.CASCADE)
-    permission = models.ForeignKey('AuthPermission', on_delete=models.CASCADE)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group_permissions'
-        unique_together = (('group', 'permission'),)
+#     class Meta:
+#         managed = True
+#         db_table = 'auth_group'
 
 
-class AuthPermission(models.Model):
-    name = models.CharField(max_length=255)
-    content_type = models.ForeignKey('DjangoContentType', on_delete=models.CASCADE)
-    codename = models.CharField(max_length=100)
 
-    class Meta:
-        managed = False
-        db_table = 'auth_permission'
-        unique_together = (('content_type', 'codename'),)
+# class AuthGroupPermissions(models.Model):
+#     id = models.BigAutoField(primary_key=True)
+#     group = models.ForeignKey(AuthGroup, on_delete=models.CASCADE)
+#     permission = models.ForeignKey('AuthPermission', on_delete=models.CASCADE)
 
-
-class AuthUser(models.Model):
-    password = models.CharField(max_length=128)
-    last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.IntegerField()
-    username = models.CharField(unique=True, max_length=150)
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
-    email = models.CharField(max_length=254)
-    is_staff = models.IntegerField()
-    is_active = models.IntegerField()
-    date_joined = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user'
+#     class Meta:
+#         managed = True
+#         db_table = 'auth_group_permissions'
+#         unique_together = (('group', 'permission'),)
 
 
-class AuthUserGroups(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, on_delete=models.CASCADE)
-    group = models.ForeignKey(AuthGroup, on_delete=models.CASCADE)
+# class AuthPermission(models.Model):
+#     name = models.CharField(max_length=255)
+#     content_type = models.ForeignKey('DjangoContentType', on_delete=models.CASCADE)
+#     codename = models.CharField(max_length=100)
 
-    class Meta:
-        managed = False
-        db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
-
-
-class AuthUserUserPermissions(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, on_delete=models.CASCADE)
-    permission = models.ForeignKey(AuthPermission, on_delete=models.CASCADE)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
+#     class Meta:
+#         managed = True
+#         db_table = 'auth_permission'
+#         unique_together = (('content_type', 'codename'),)
 
 
-class DjangoAdminLog(models.Model):
-    action_time = models.DateTimeField()
-    object_id = models.TextField(blank=True, null=True)
-    object_repr = models.CharField(max_length=200)
-    action_flag = models.PositiveSmallIntegerField()
-    change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', on_delete=models.CASCADE, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, on_delete=models.CASCADE)
+# class AuthUser(models.Model):
+#     password = models.CharField(max_length=128)
+#     last_login = models.DateTimeField(blank=True, null=True)
+#     is_superuser = models.IntegerField()
+#     username = models.CharField(unique=True, max_length=150)
+#     first_name = models.CharField(max_length=150)
+#     last_name = models.CharField(max_length=150)
+#     email = models.CharField(max_length=254)
+#     is_staff = models.IntegerField()
+#     is_active = models.IntegerField()
+#     date_joined = models.DateTimeField()
 
-    class Meta:
-        managed = False
-        db_table = 'django_admin_log'
-
-
-class DjangoContentType(models.Model):
-    app_label = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'django_content_type'
-        unique_together = (('app_label', 'model'),)
+#     class Meta:
+#         managed = True
+#         db_table = 'auth_user'
 
 
-class DjangoMigrations(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    app = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    applied = models.DateTimeField()
+# class AuthUserGroups(models.Model):
+#     id = models.BigAutoField(primary_key=True)
+#     user = models.ForeignKey(AuthUser, on_delete=models.CASCADE)
+#     group = models.ForeignKey(AuthGroup, on_delete=models.CASCADE)
 
-    class Meta:
-        managed = False
-        db_table = 'django_migrations'
+#     class Meta:
+#         managed = True
+#         db_table = 'auth_user_groups'
+#         unique_together = (('user', 'group'),)
 
 
-class DjangoSession(models.Model):
-    session_key = models.CharField(primary_key=True, max_length=40)
-    session_data = models.TextField()
-    expire_date = models.DateTimeField()
+# class AuthUserUserPermissions(models.Model):
+#     id = models.BigAutoField(primary_key=True)
+#     user = models.ForeignKey(AuthUser, on_delete=models.CASCADE)
+#     permission = models.ForeignKey(AuthPermission, on_delete=models.CASCADE)
 
-    class Meta:
-        managed = False
-        db_table = 'django_session'
+#     class Meta:
+#         managed = True
+#         db_table = 'auth_user_user_permissions'
+#         unique_together = (('user', 'permission'),)
+
+
+# class DjangoAdminLog(models.Model):
+#     action_time = models.DateTimeField()
+#     object_id = models.TextField(blank=True, null=True)
+#     object_repr = models.CharField(max_length=200)
+#     action_flag = models.PositiveSmallIntegerField()
+#     change_message = models.TextField()
+#     content_type = models.ForeignKey('DjangoContentType', on_delete=models.CASCADE, blank=True, null=True)
+#     user = models.ForeignKey(AuthUser, on_delete=models.CASCADE)
+
+#     class Meta:
+#         managed = True
+#         db_table = 'django_admin_log'
+
+
+# class DjangoContentType(models.Model):
+#     app_label = models.CharField(max_length=100)
+#     model = models.CharField(max_length=100)
+
+#     class Meta:
+#         managed = True
+#         db_table = 'django_content_type'
+#         unique_together = (('app_label', 'model'),)
+
+
+# class DjangoMigrations(models.Model):
+#     id = models.BigAutoField(primary_key=True)
+#     app = models.CharField(max_length=255)
+#     name = models.CharField(max_length=255)
+#     applied = models.DateTimeField()
+
+#     class Meta:
+#         managed = True
+#         db_table = 'django_migrations'
+
+
+# class DjangoSession(models.Model):
+#     session_key = models.CharField(primary_key=True, max_length=40)
+#     session_data = models.TextField()
+#     expire_date = models.DateTimeField()
+
+#     class Meta:
+#         managed = True
+#         db_table = 'django_session'
 
 
 class MovieAwardAssignment(models.Model):
@@ -257,7 +257,7 @@ class MovieAwardAssignment(models.Model):
     movie_movie = models.ForeignKey(Movie, on_delete=models.CASCADE, db_column='Movie_movie_id')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'movie_award_assignment'
 
     def __str__(self):
@@ -270,7 +270,7 @@ class Timestamps(models.Model):
     update_time = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'timestamps'
 
     def __str__(self):
@@ -283,7 +283,7 @@ class User(models.Model):
     password = models.CharField(max_length=32)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'user'
     
     def __str__(self):
