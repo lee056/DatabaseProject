@@ -99,6 +99,7 @@ class Gross(models.Model):
 
 
 class Movie(models.Model):
+    #will be the go-to model for searches
     movie_id = models.IntegerField(primary_key=True)
     movie_title = models.CharField(max_length=255)
     release_year = models.IntegerField()
