@@ -2,3 +2,4 @@
 venv/
 *.pyc
 
+/movies_matrix/__pycache__
