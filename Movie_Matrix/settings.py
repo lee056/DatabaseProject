@@ -130,3 +130,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #redirect to this URL after successful login
 LOGIN_REDIRECT_URL = '/home/'
 
+
