@@ -36,7 +36,6 @@ def generate_unique_director_id():
         if not Director.objects.filter(director_id=new_id).exists():
             return new_id
 
->>>>>>> mainBranchToMerge
 
 def login_redirect(request):
     return redirect('login')  # to login page
