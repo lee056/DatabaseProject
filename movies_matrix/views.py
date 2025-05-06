@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from .forms import CustomUserCreationForm
-<<<<<<< HEAD
+
 from .models import Movie
 from django.db.models import Q
-=======
+
 
 from django.shortcuts import get_object_or_404
 from .models import Movie, Actor, Director, Rating, Genre, Award, Gross, Casting, MovieDirectorAssignment, GenreMovieAssignment, MovieAwardAssignment
@@ -55,7 +55,6 @@ def create_account(request):
 def home(request):
     return render(request, 'homepage.html') #to homepage
 
-<<<<<<< HEAD
 
 def search_results(request):
     query = request.GET.get('search')
@@ -72,7 +71,6 @@ def search_results(request):
         results = Movie.objects.all()  # Or handle empty query as needed
 
     return render(request, 'results.html', {'results': results, 'query': query})
-=======
 def is_admin(user):
     return user.is_authenticated and user.groups.filter(name='Admin').exists()
 
@@ -182,4 +180,3 @@ def delete_movie(request, movie_id):
     movie.delete() 
     return redirect('manage_movies') #refreshes
 
->>>>>>> mainBranchToMerge
