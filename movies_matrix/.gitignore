@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 /venv
 *.pyc
 .venv
+=======
+/venv
+>>>>>>> mainBranchToMerge

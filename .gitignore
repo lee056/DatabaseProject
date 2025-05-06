@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 /venv/
 venv/
 *.pyc
 
 /movies_matrix/__pycache__
+=======
+/venv
+>>>>>>> mainBranchToMerge
