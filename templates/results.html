@@ -4,32 +4,116 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Movie Matrix - Login</title>
+    <title>Movie Matrix - Search Results</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1, h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        a {
+            color: #4A90E2;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #357ebd;
+        }
+
+        .search-results-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            max-width: 700px;
+            margin: 30px auto;
+        }
+
+        .search-results-container h2 {
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .search-results-container p {
+            color: #555;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .search-results-container ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .search-results-container li {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .search-results-container li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .search-results-container h3 {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .search-results-container li p {
+            margin-bottom: 8px;
+            color: #666;
+            font-size: 1em;
+        }
+
+        .search-results-container .no-results {
+            font-style: italic;
+            color: #777;
+            font-size: 1.1em;
+        }
+    </style>
 </head>
 <body>
-    <h2>Search Results</h2>
+    <div class="search-results-container">
+        <h2>Search Results</h2>
 
-    {% if query %}
-        <p>You searched for: {{ query }}</p>
-    {% endif %}
+        {% if query %}
+            <p>You searched for: {{ query }}</p>
+        {% endif %}
 
-    {% if results %}
-        <ul>
-            {% for movie in results %}
-                <li>
-                    <h3>Title: {{ movie.movie_title }}</h3>
-                    <p>Release Year: {{ movie.release_year }}</p>
-                    <p>Duration: {{ movie.duration }} minutes</p>
-                    <p>Rating: {{ movie.rating_rating }}</p>
-                    <!-- Cannot add anymore because of the lack of primary keys rn! -->
-
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No results found.</p>
-    {% endif %}
+        {% if results %}
+            <ul>
+                {% for movie in results %}
+                    <li>
+                        <h3>{{ movie.movie_title }}</h3>
+                        <p>Release Year: {{ movie.release_year }}</p>
+                        <p>Duration: {{ movie.duration }} minutes</p>
+                        <p>Rating: {{ movie.rating_rating }}</p>
+                        </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-results">No results found.</p>
+        {% endif %}
+    </div>
 </body>
+</html>
