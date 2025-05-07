@@ -179,3 +179,5 @@ def delete_movie(request, movie_id):
     movie.delete() 
     return redirect('manage_movies') #refreshes
 
+
+

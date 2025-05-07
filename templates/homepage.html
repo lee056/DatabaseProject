@@ -53,6 +53,7 @@
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             text-align: center;
+            
         }
 
         .home-container p {
@@ -112,8 +113,10 @@
             display: block; 
         }
 
-        .home-container form[method="post"] { 
+        .home-container form[method="post"] {
             margin-top: 20px;
+            display: flex; /* Use flexbox to center the button */
+            justify-content: center; /* Center horizontally along the flex axis */
         }
 
         .home-container form[method="post"] button[type="submit"] {
@@ -132,6 +135,7 @@
 
         {% if user.is_authenticated %}
             <p>Hello, <strong>{{ user.username }}</strong>!</p>
+            <p>Search the database for movies! <br>Search for any movie and find information about it!</p>
             <form method="GET" action="{% url 'search_results' %}">
                 <input type="text" name="search" placeholder="Search movies...">
                 <button type="submit">Search</button>
@@ -139,7 +143,7 @@
             
         {% if user.is_staff %}
             <a href="{% url 'manage_movies' %}">
-            <button type="button">Admin Action Button</button>
+            <button type="button">Add Movies</button>
         {% endif %}
 
 
