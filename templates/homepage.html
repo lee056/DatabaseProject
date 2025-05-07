@@ -12,15 +12,23 @@
 
         {% if user.is_authenticated %}
             <p>Hello, <strong>{{ user.username }}</strong>!</p>
+            <form method="GET" action="{% url 'search_results' %}">
+                <input type="text" name="search" placeholder="Search movies...">
+                <button type="submit">Search</button>
+            </form>
+            
+        {% if user.is_staff %}
+            <a href="{% url 'manage_movies' %}">
+            <button type="button">Admin Action Button</button>
+        {% endif %}
+
+
             <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
                 <button type="submit">Logout</button>
             </form>
 
-            <form method="GET" action="{% url 'search_results' %}">
-                <input type="text" name="search" placeholder="Search movies...">
-                <button type="submit">Search</button>
-            </form>
+            
 
 
         {% else %}
